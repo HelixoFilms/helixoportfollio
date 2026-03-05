@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helixo’s Portfollio</title>
+    <style>
+        :root {
+            --bg-dark: #1a1a1a;
+            --cream-paper: #fdf5e6;
+            --active-pill: #f5deb3;
+            --gold-cta: #f39c12;
+            --footer-brown: #a67c52;
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --line-height: 2.8rem;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: white; color: #333; opacity: 0; transition: opacity 1s; overflow-x: hidden; }
+
+        /* --- 1. Hero Geometry --- */
+        .hero-header {
+            height: 450px;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('bg.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 10%;
+            z-index: 10;
+        }
+
+        .s-curve-overlay {
+            position: absolute;
+            right: 0; top: 0; height: 100%; width: 60%;
+            background: var(--bg-dark);
+            clip-path: ellipse(100% 100% at 100% 50%);
+            z-index: -1;
+        }
+
+        .hero-text { text-align: right; color: white; }
+        .hero-text h1 { font-size: clamp(2rem, 8vw, 3.5rem); font-weight: 800; }
+
+        /* --- 2. Journal Area --- */
+        .content-area { padding: 60px 5%; display: flex; flex-direction: column; align-items: center; }
+
+        .notebook {
+            background: var(--cream-paper);
+            width: 100%; max-width: 700px;
+            border-radius: 20px; padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background-image: repeating-linear-gradient(transparent, transparent calc(var(--line-height) - 1px), #eee calc(var(--line-height) - 1px), #eee var(--line-height));
+            background-size: 100% var(--line-height);
+            margin-bottom: 50px;
+        }
+
+        .cta-gold { width: 100%; background: var(--gold-cta); border: none; padding: 15px; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; font-size: 1rem; }
+
+        /* --- 3. Custom Image Nav Section --- */
+        .nav-section {
+            width: 100%;
+            padding: 60px 0;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('bg.png');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .pill-bar {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+            background: rgba(0,0,0,0.6); padding: 12px; border-radius: 40px; backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+        }
+
+        .pill { padding: 12px 24px; border-radius: 30px; cursor: pointer; color: white; background: rgba(255,255,255,0.1); font-weight: 600; border: none; }
+        .pill.active { background: var(--active-pill); color: #1a1a1a; }
+
+        /* --- 4. Social Cards --- */
+        .tab-content { width: 90%; max-width: 600px; display: none; }
+        .tab-content.active { display: block; }
+
+        .social-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 18px; padding: 20px;
+            display: flex; flex-direction: column; margin-bottom: 18px; color: white;
+        }
+
+        .card-top { display: flex; align-items: center; margin-bottom: 15px; }
+        .avatar { width: 60px; height: 60px; border-radius: 50%; background: #444; margin-right: 15px; }
+        
+        .visit-btn { width: 100%; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.4); padding: 12px; border-radius: 10px; color: white; font-weight: bold; cursor: pointer; }
+
+        /* --- 5. UI Password Popup (Glassmorphism) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(15px);
+        }
+        .modal-content {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            padding: 40px; border-radius: 25px; text-align: center; color: white; width: 90%; max-width: 450px;
+        }
+        .modal-content input {
+            width: 100%; padding: 12px; margin: 20px 0; border-radius: 10px; border: none; background: rgba(255,255,255,0.9); font-size: 1rem;
+        }
+
+        /* --- Reveal Animation --- */
+        .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        footer { background: var(--footer-brown); padding: 50px 20px; text-align: center; color: white; border-radius: 50% 50% 0 0 / 25px 25px 0 0; }
+    </style>
+</head>
+<body onload="document.body.style.opacity='1'">
+
+    <header class="hero-header">
+        <div class="s-curve-overlay"></div>
+        <div class="hero-text">
+            <h1>Helixo’s Portfollio</h1>
+            <p>Welcome! :)</p>
+        </div>
+    </header>
+
+    <main class="content-area">
+        <section class="notebook reveal">
+            <p>Journal Entry: March 2026</p>
+            <p>Currently on the grind to 100K subs.</p>
+            <p>Working on Herobrine's Return & TBOTE.</p>
+            <button class="cta-gold" onclick="alert('Coming soon... 🛡')">Read more!</button>
+        </section>
+    </main>
+
+    <div class="nav-section">
+        <nav class="pill-bar reveal">
+            <button class="pill active" onclick="showTab('socials')">Socials</button>
+            <button class="pill" onclick="showTab('announcements')">Announcements</button>
+            <button class="pill" onclick="openPWModal()">Inner Circle</button>
+        </nav>
+
+        <div id="socials" class="tab-content active reveal">
+            <div class="social-card">
+                <div class="card-top"><div class="avatar"></div><div><h3>HelixoFilms</h3><p>YouTube | 26.3K+</p></div></div>
+                <button class="visit-btn">Visit</button>
+            </div>
+            <div class="social-card">
+                <div class="card-top"><div class="avatar"></div><div><h3>Helixo</h3><p>Instagram | 120+</p></div></div>
+               <a href="https://www.instagram.com/helixofilms?igsh=OXYycm85eTRxc2lu"><button class="visit-btn">Visit</button></a>
+            </div>
+        </div>
+
+        <div id="announcements" class="tab-content reveal">
+            <h2 style="color:white; text-align:center;">Stay Tuned for TBOTE Episode 1!</h2>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="pwModal">
+        <div class="modal-content">
+            <h2>Inner Circle Access 🛡</h2>
+            <p style="margin-top:10px; font-size: 0.9rem; opacity: 0.8;">To enter the Inner Vircle section, Enter the password helixo gave you. </p>
+            <input type="password" id="pwInput" placeholder="Enter Secret Password...">
+            <button class="cta-gold" onclick="validatePW()">Enter Circle</button>
+            <button style="background:none; border:none; color:white; margin-top:15px; cursor:pointer; opacity:0.6;" onclick="closePWModal()">Go Back</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>You’ve Reached the end!</p>
+        <p>© 2026 Helixo Portfollio website</p>
+    </footer>
+
+    <script>
+        function showTab(id) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function openPWModal() { document.getElementById('pwModal').style.display = 'flex'; }
+        function closePWModal() { document.getElementById('pwModal').style.display = 'none'; }
+
+        function validatePW() {
+            const pw = document.getElementById('pwInput').value;
+            if (pw === "innercirclehelixo123") {
+                window.open('closefriends.html', '_blank');
+                closePWModal();
+            } else {
+                alert("Access Denied!");
+            }
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

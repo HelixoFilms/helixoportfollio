@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helixo's Inner Circle</title>
+    <style>
+        :root {
+            --bg-dark: #0f0f0f;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --yellow-btn: #f1c40f;
+            --footer-brown: #a67c52;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg-dark); color: white; opacity: 0; transition: opacity 1.5s; overflow-x: hidden; }
+
+        /* --- 1. Notification Banner --- */
+        #notif-banner {
+            background: #222;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid var(--glass-bg);
+        }
+        .real-notif-btn {
+            background: var(--yellow-btn);
+            color: black;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* --- 2. Header & Visuals --- */
+        .top-icon-wrap { display: flex; justify-content: center; padding-top: 30px; }
+        .cf-icon { width: 50px; height: 50px; }
+
+        header { padding: 40px 10% 20px; text-align: center; }
+        .section-wrap { padding: 20px 10%; }
+        
+        /* --- 3. Entry Signature & Card --- */
+        .author-sig { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .pfp-mini { width: 35px; height: 35px; border-radius: 50%; background: #333; border: 1px solid rgba(255,255,255,0.2); }
+        
+        .entry-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+        .pill-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        .mood-pill { padding: 5px 12px; border-radius: 50px; font-size: 0.75rem; background: rgba(255,255,255,0.1); }
+        .read-btn { background: white; color: black; border: none; padding: 10px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+
+        /* --- 4. Information Hub --- */
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .info-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .info-card span { font-size: 0.75rem; color: var(--text-secondary); vertical-align: super; }
+        .show-me-btn { background: var(--yellow-btn); border: none; color: black; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+        /* --- Modal & Footer --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(15px); }
+        .modal-content { background: #1a1a1a; width: 90%; max-width: 600px; padding: 40px; border-radius: 25px; position: relative; }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        footer { background: var(--footer-brown); padding: 40px; text-align: center; margin-top: 80px; border-radius: 50% 50% 0 0 / 20px 20px 0 0; }
+    </style>
+</head>
+<body onload="document.body.style.opacity='1'">
+
+    <div id="notif-banner">
+        <span>Enable notifications for updates and new Entries/notes from Helixo</span>
+        <button class="real-notif-btn" onclick="document.getElementById('notif-banner').style.display='none'">Enable</button>
+    </div>
+
+    <div class="top-icon-wrap reveal">
+        <img src="closefriendicon.png" alt="CF" class="cf-icon">
+    </div>
+
+    <header class="reveal">
+        <img src="closefriendsicon.png" width="100px" alt="">
+        <h1>Welcome to the Inner Circle</h1>
+        <p style="color: var(--text-secondary)">A place where helixo update his closest friends in life and stuff. </p></p>
+    </header>
+
+    <div class="section-wrap">
+        <h3 style="color: var(--yellow-btn); margin-bottom: 20px;" class="reveal">Helixo's Latest Entry</h3>
+        
+        <div class="entry-card reveal">
+            <div class="author-sig">
+                <img src="pfp.png" class="pfp-mini">
+                <span class="author-name">Helixo</span>
+            </div>
+            <h2>Welcome to the Inner Circle! </h2>
+            <div class="pill-row">
+                <span class="mood-pill">Rant 🗣️</span>
+                
+            </div>
+            <p style="color: var(--text-secondary); mask-image: linear-gradient(to bottom, black 50%, transparent 100%);">
+                read more.. 67
+            </p>
+            <button class="read-btn" onclick="openModal('entry1')">Read whole entry</button>
+        </div>
+
+        <h3 style="text-align: center; margin-bottom: 30px;" class="reveal">Information Hub</h3>
+        
+        <div class="info-grid reveal">
+            <div class="info-card">
+                <div><h4>Helixo heart codes</h4><span>Emoji meanings</span></div>
+                <button class="show-me-btn" onclick="openModal('hearts')">Show me</button>
+            </div>
+            <div class="info-card">
+                <div><h4>General Info</h4><span>Helixo's whatever</span></div>
+                <button class="show-me-btn" onclick="openModal('whatever')">Show me</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">✕</button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>You’ve Reached the end!</p>
+        <p>© 2026 Helixo Portfollio website</p>
+    </footer>
+
+    <script>
+        const modal = document.getElementById('modal');
+        const modalBody = document.getElementById('modal-body');
+
+        const content = {
+            entry1: `<h2>Welcome to ny private notes/thoughts! </h2><p>I appreciate that you took your time to get in the Inner Circle tab, this is where i might idk vent talk about something yknoww anything that i trust my cloaest friends with.
+            
+             I trust that you will not share the code to anyone else that i didn't approve to join. also, make ture to turn on notifs for new Entries updates</p>`,
+            hearts: `<h2>❤️ Heart Codes</h2><ul style="list-style:none; line-height:2;"><p>​❤️ — Normal like / Okay, nice!
+​🧡 — I LOVE IT/YOU SM 
+
+​💛 — Thank you! (Approved by me)
+
+​💚 — I love whatever is wrong with you 
+
+​💙 — Day One / Loyalty
+
+​💜 — Locked in / Creative mode
+
+​🤎 — Solid / Grounded
+
+​🖤 — something's wrong
+
+​🤍 —  Peace/wholesomeness
+
+​🩷 — Hyper / Huge W
+
+​🩵 — on cloud nine ( really happy) 
+
+​🩶 — No thoughts, just vibes
+
+​❤️‍🔥 — Obsessed / FIREEE
+☑️ - Jealousy</p></ul>`,
+            whatever: `<h2>TestInfo</h2><p>Kijana there is no more info go touch grass now.</p>`
+        };
+
+        function openModal(k) { modalBody.innerHTML = content[k]; modal.style.display = 'flex'; }
+        function closeModal() { modal.style.display = 'none'; }
+        const observer = new IntersectionObserver((es) => {
+            es.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
