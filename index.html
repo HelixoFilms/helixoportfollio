@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Helixo’s Portfollio</title>
+    <title>Helixo’s Portfolio</title>
     <style>
         :root {
             --bg-dark: #1a1a1a;
@@ -13,6 +13,8 @@
             --footer-brown: #a67c52;
             --glass-bg: rgba(255, 255, 255, 0.15);
             --line-height: 2.8rem;
+            --green-glow: #2ecc71;
+            --yellow-glow: #f1c40f;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -21,8 +23,7 @@
         /* --- 1. Hero Geometry --- */
         .hero-header {
             height: 450px;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
-                        url('bg.png');
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('bg.png');
             background-size: cover;
             background-position: center;
             position: relative;
@@ -57,6 +58,17 @@
             margin-bottom: 50px;
         }
 
+        /* Glowing Text Highlight */
+        .ICircle {
+            display: inline;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--green-glow), var(--yellow-glow));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(46, 204, 113, 0.4));
+        }
+
         .cta-gold { width: 100%; background: var(--gold-cta); border: none; padding: 15px; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; font-size: 1rem; }
 
         /* --- 3. Custom Image Nav Section --- */
@@ -74,8 +86,46 @@
             margin-bottom: 40px;
         }
 
-        .pill { padding: 12px 24px; border-radius: 30px; cursor: pointer; color: white; background: rgba(255,255,255,0.1); font-weight: 600; border: none; }
+        .pill { padding: 12px 24px; border-radius: 30px; cursor: pointer; color: white; background: rgba(255,255,255,0.1); font-weight: 600; border: none; transition: 0.3s; }
         .pill.active { background: var(--active-pill); color: #1a1a1a; }
+
+        /* --- SPINNING BORDER BUTTON --- */
+        .pill-inner-circle {
+            position: relative;
+            padding: 12px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: white;
+            background: #1a1a1a;
+            font-weight: 800;
+            border: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .pill-inner-circle::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--green-glow), var(--yellow-glow), transparent);
+            animation: spin 3s linear infinite;
+            z-index: -2;
+        }
+
+        .pill-inner-circle::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            background: #1a1a1a;
+            border-radius: 28px;
+            z-index: -1;
+        }
 
         /* --- 4. Social Cards --- */
         .tab-content { width: 90%; max-width: 600px; display: none; }
@@ -94,7 +144,7 @@
         
         .visit-btn { width: 100%; background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.4); padding: 12px; border-radius: 10px; color: white; font-weight: bold; cursor: pointer; }
 
-        /* --- 5. UI Password Popup (Glassmorphism) --- */
+        /* --- 5. UI Password Popup --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(15px);
@@ -104,10 +154,9 @@
             padding: 40px; border-radius: 25px; text-align: center; color: white; width: 90%; max-width: 450px;
         }
         .modal-content input {
-            width: 100%; padding: 12px; margin: 20px 0; border-radius: 10px; border: none; background: rgba(255,255,255,0.9); font-size: 1rem;
+            width: 100%; padding: 12px; margin: 20px 0; border-radius: 10px; border: none; background: rgba(255,255,255,0.9); font-size: 1rem; color: #333;
         }
 
-        /* --- Reveal Animation --- */
         .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
@@ -119,16 +168,16 @@
     <header class="hero-header">
         <div class="s-curve-overlay"></div>
         <div class="hero-text">
-            <h1>Helixo’s Portfollio</h1>
+            <h1>Helixo’s Portfolio</h1>
             <p>Welcome! :)</p>
         </div>
     </header>
 
     <main class="content-area">
         <section class="notebook reveal">
-            <h1>Helixo Portfollio Early Release!</h1>
-            <p>Welcome to my portfollio where you will find everything about me</p>
-            <p>Its not fully released yet but the <p class="ICircle"> Inner Circle</p> Is! </p>
+            <h1>Helixo Portfolio Early Release!</h1>
+            <p>Welcome to my portfolio where you will find everything about me</p>
+            <p>Its not fully released yet but the <span class="ICircle">Inner Circle</span> is!</p>
             <p>If you are a close friend, check it out!</p>
             <button class="cta-gold" onclick="alert('Coming soon... 🛡')">Read more!</button>
         </section>
@@ -138,7 +187,7 @@
         <nav class="pill-bar reveal">
             <button class="pill active" onclick="showTab('socials')">Socials</button>
             <button class="pill" onclick="showTab('announcements')">Announcements</button>
-            <button class="pill" onclick="openPWModal()">Inner Circle</button>
+            <button class="pill-inner-circle" onclick="openPWModal()">Inner Circle</button>
         </nav>
 
         <div id="socials" class="tab-content active reveal">
@@ -160,7 +209,7 @@
     <div class="modal-overlay" id="pwModal">
         <div class="modal-content">
             <h2>Inner Circle Access 🛡</h2>
-            <p style="margin-top:10px; font-size: 0.9rem; opacity: 0.8;">To enter the Inner Vircle section, Enter the password helixo gave you. </p>
+            <p style="margin-top:10px; font-size: 0.9rem; opacity: 0.8;">To enter the Inner Circle section, Enter the password Helixo gave you.</p>
             <input type="password" id="pwInput" placeholder="Enter Secret Password...">
             <button class="cta-gold" onclick="validatePW()">Enter Circle</button>
             <button style="background:none; border:none; color:white; margin-top:15px; cursor:pointer; opacity:0.6;" onclick="closePWModal()">Go Back</button>
@@ -168,14 +217,14 @@
     </div>
 
     <footer>
-        <p>You’ve Reached the end!</p>
-        <p>© 2026 Helixo Portfollio website</p>
+        <p>Youve Reached the end!</p>
+        <p>© 2026 Helixo Portfolio website</p>
     </footer>
 
     <script>
         function showTab(id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.pill, .pill-inner-circle').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             event.currentTarget.classList.add('active');
         }
