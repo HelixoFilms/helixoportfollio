@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helixo's Inner Circle</title>
     
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignal.js" async=""></script>
 <script>
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   OneSignalDeferred.push(async function(OneSignal) {
@@ -13,7 +13,7 @@
       appId: "7e4fedba-db73-4901-84c5-ee0feaa67e50",
       safari_web_id: "web.onesignal.auto.194684e9-1eab-45d0-91dc-36dcc25bd22e",
       notifyButton: {
-        enable: true,
+        enable: false, // Set to false so it doesn't show their red bell icon
       },
     });
   });
