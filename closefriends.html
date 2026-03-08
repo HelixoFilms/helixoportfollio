@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helixo's Inner Circle</title>
+    
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignal.js" async=""></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "YOUR_ONESIGNAL_APP_ID_HERE", // PASTE YOUR APP ID FROM ONESIGNAL DASHBOARD HERE
+          safari_web_id: "optional_safari_id",
+          notifyButton: {
+            enable: false, 
+          },
+        });
+      });
+    </script>
+
     <style>
         @property --glow-angle {
             syntax: '<angle>';
@@ -157,7 +172,7 @@
 
     <script>
         const content = {
-entry1: `
+            entry1: `
                 <h2 style="color: var(--yellow-btn); margin-bottom: 15px;">Welcome to my private notes/thoughts!</h2>
                 <p style="line-height: 1.6; margin-bottom: 15px;">I appreciate that you took your time to get in the Inner Circle tab. This is where I might vent, talk about something, or share anything I trust my closest friends with.</p>
                 <p style="line-height: 1.6; margin-bottom: 15px;"><strong>The Trust Agreement:</strong> I trust that you will not share the entry code with anyone else I haven't approved. Keep the circle tight.</p>
@@ -198,9 +213,16 @@ entry1: `
         };
 
         function requestNotifs() {
-            Notification.requestPermission().then(perm => {
-                if(perm === 'granted') alert('Notifications Enabled ❤️‍🔥');
+            OneSignalDeferred.push(async function(OneSignal) {
+                // Triggers OneSignal's native permission flow
+                await OneSignal.Notifications.requestPermission();
+                
+                // Hide the banner after interaction
                 document.getElementById('notif-banner').style.display = 'none';
+                
+                if (OneSignal.Notifications.permission) {
+                    alert('Notifications Enabled ❤️‍🔥');
+                }
             });
         }
 
