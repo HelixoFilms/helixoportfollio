@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helixo's Inner Circle</title>
     
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignal.js" async=""></script>
-    <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
-          appId: "YOUR_ONESIGNAL_APP_ID_HERE", // PASTE YOUR APP ID FROM ONESIGNAL DASHBOARD HERE
-          safari_web_id: "optional_safari_id",
-          notifyButton: {
-            enable: false, 
-          },
-        });
-      });
-    </script>
+    
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "f7725394-b392-40ab-b99a-26a81eacd2d6",
+      safari_web_id: "web.onesignal.auto.613528e9-2930-4b07-a098-5a9518822d98",
+      notifyButton: {
+        enable: true,
+      },
+    });
+  });
+</script>
 
     <style>
         @property --glow-angle {
