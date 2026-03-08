@@ -5,189 +5,209 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helixo's Inner Circle</title>
     <style>
+        @property --glow-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes rotateGlow {
+            0% { --glow-angle: 0deg; }
+            100% { --glow-angle: 360deg; }
+        }
+
         :root {
-            --bg-dark: #0f0f0f;
-            --glass-bg: rgba(255, 255, 255, 0.1);
+            --bg-dark: #0a0a0a;
+            --glass-bg: rgba(255, 255, 255, 0.05);
             --yellow-btn: #f1c40f;
-            --footer-brown: #a67c52;
-            --text-secondary: rgba(255, 255, 255, 0.6);
+            --glow-green: #b1fc03;
+            --glow-orange: #fc9003;
+            --text-secondary: rgba(255, 255, 255, 0.5);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: var(--bg-dark); color: white; opacity: 0; transition: opacity 1.5s; overflow-x: hidden; }
+        body { background: var(--bg-dark); color: white; opacity: 0; transition: opacity 1s; overflow-x: hidden; }
 
-        /* --- 1. Notification Banner --- */
         #notif-banner {
-            background: #222;
-            color: white;
-            padding: 15px;
+            background: rgba(34, 34, 34, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 15px;
+            font-size: 0.9rem;
             border-bottom: 1px solid var(--glass-bg);
-        }
-        .real-notif-btn {
-            background: var(--yellow-btn);
-            color: black;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
+            position: sticky; top: 0; z-index: 100;
         }
 
-        /* --- 2. Header & Visuals --- */
-        .top-icon-wrap { display: flex; justify-content: center; padding-top: 30px; }
-        .cf-icon { width: 50px; height: 50px; }
+        header { padding: 60px 10% 40px; text-align: center; }
+        .section-wrap { padding: 20px 10%; max-width: 1200px; margin: auto; }
 
-        header { padding: 40px 10% 20px; text-align: center; }
-        .section-wrap { padding: 20px 10%; }
-        
-        /* --- 3. Entry Signature & Card --- */
-        .author-sig { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-        .pfp-mini { width: 35px; height: 35px; border-radius: 50%; background: #333; border: 1px solid rgba(255,255,255,0.2); }
-        
         .entry-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            background: #111;
             border-radius: 20px;
             padding: 30px;
             margin-bottom: 50px;
+            border: 2px solid transparent;
+            background-image: linear-gradient(#111, #111), conic-gradient(from var(--glow-angle), var(--glow-green), var(--glow-orange), var(--glow-green));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            animation: rotateGlow 4s linear infinite;
         }
-        .pill-row { display: flex; gap: 10px; margin-bottom: 15px; }
-        .mood-pill { padding: 5px 12px; border-radius: 50px; font-size: 0.75rem; background: rgba(255,255,255,0.1); }
-        .read-btn { background: white; color: black; border: none; padding: 10px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 20px; }
 
-        /* --- 4. Information Hub --- */
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .mood-pill { 
+            padding: 6px 15px; 
+            border-radius: 50px; 
+            font-size: 0.75rem; 
+            background: rgba(255,255,255,0.1); 
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); display: none; 
+            justify-content: center; align-items: center; z-index: 1000; 
+            backdrop-filter: blur(10px); 
+        }
+
+        .modal-content { 
+            background: #111; width: 90%; max-width: 600px; padding: 40px; 
+            border-radius: 25px; position: relative;
+            border: 2px solid transparent;
+            background-image: linear-gradient(#111, #111), conic-gradient(from var(--glow-angle), var(--glow-green), var(--glow-orange), var(--glow-green));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            animation: rotateGlow 4s linear infinite;
+        }
+
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .info-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            padding: 20px;
-            border-radius: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .info-card span { font-size: 0.75rem; color: var(--text-secondary); vertical-align: super; }
-        .show-me-btn { background: var(--yellow-btn); border: none; color: black; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; }
 
-        /* --- Modal & Footer --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(15px); }
-        .modal-content { background: #1a1a1a; width: 90%; max-width: 600px; padding: 40px; border-radius: 25px; position: relative; }
-        .close-modal { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
-        .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
+        .action-btn {
+            background: var(--yellow-btn);
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        footer { background: var(--footer-brown); padding: 40px; text-align: center; margin-top: 80px; border-radius: 50% 50% 0 0 / 20px 20px 0 0; }
+        
+        footer { padding: 60px; text-align: center; color: var(--text-secondary); font-size: 0.8rem; }
     </style>
 </head>
 <body onload="document.body.style.opacity='1'">
 
     <div id="notif-banner">
-        <span>Enable notifications for updates and new Entries/notes from Helixo</span>
-        <button class="real-notif-btn" onclick="document.getElementById('notif-banner').style.display='none'">Enable</button>
-    </div>
-
-    <div class="top-icon-wrap reveal">
-        <img src="closefriendicon.png" alt="CF" class="cf-icon">
+        <span>Enable notifications for new Entries from Helixo</span>
+        <button class="action-btn" onclick="requestNotifs()">Enable</button>
     </div>
 
     <header class="reveal">
-        <img src="closefriendsicon.png" width="100px" alt="">
-        <h1>Welcome to the Inner Circle</h1>
-        <p style="color: var(--text-secondary)">A place where helixo update his closest friends in life and stuff. </p></p>
+        <h1 style="font-size: 2.5rem; margin-bottom: 10px;">The Inner Circle</h1>
+        <p style="color: var(--text-secondary)">Private Updates that i share with my closest friends.</p>
     </header>
 
     <div class="section-wrap">
-        <h3 style="color: var(--yellow-btn); margin-bottom: 20px;" class="reveal">Helixo's Latest Entry</h3>
-        
         <div class="entry-card reveal">
-            <div class="author-sig">
-                <img src="pfp.png" class="pfp-mini">
-                <span class="author-name">Helixo</span>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: #333;"></div>
+                <span style="font-weight: bold;">Helixo</span>
             </div>
-            <h2>Welcome to the Inner Circle! </h2>
-            <div class="pill-row">
-                <span class="mood-pill">Rant 🗣️</span>
-                
-            </div>
-            <p style="color: var(--text-secondary); mask-image: linear-gradient(to bottom, black 50%, transparent 100%);">
-                read more.. 67
-            </p>
-            <button class="read-btn" onclick="openModal('entry1')">Read whole entry</button>
+            <h2 style="margin-bottom: 10px;">Welcome to the Circle!</h2>
+            <div style="margin-bottom: 15px;"><span class="mood-pill">Rant 🗣️</span></div>
+            <p style="color: var(--text-secondary); line-height: 1.6;">I appreciate you checking the Inner Circle. This is where I share what I trust with my friends...</p>
+            <button class="action-btn" style="margin-top: 20px; border-radius: 50px;" onclick="openModal('entry1')">Read Full Entry</button>
         </div>
 
-        <h3 style="text-align: center; margin-bottom: 30px;" class="reveal">Information Hub</h3>
-        
+        <h3 style="margin-bottom: 25px;" class="reveal">Information Hub</h3>
         <div class="info-grid reveal">
             <div class="info-card">
-                <div><h4>Helixo heart codes</h4><span>Emoji meanings</span></div>
-                <button class="show-me-btn" onclick="openModal('hearts')">Show me</button>
+                <h4>Heart Codes</h4>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 10px 0;">Mood meanings</p>
+                <button class="action-btn" style="width: 100%;" onclick="openModal('hearts')">Open Codes</button>
             </div>
             <div class="info-card">
-                <div><h4>General Info</h4><span>Helixo's whatever</span></div>
-                <button class="show-me-btn" onclick="openModal('whatever')">Show me</button>
+                <h4>The Bro Code</h4>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 10px 0;">Sacred Rules</p>
+                <button class="action-btn" style="width: 100%;" onclick="openModal('rules')">Open Rules</button>
             </div>
         </div>
     </div>
 
     <div class="modal-overlay" id="modal">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeModal()">✕</button>
+            <button style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem;" onclick="closeModal()">✕</button>
             <div id="modal-body"></div>
         </div>
     </div>
 
-    <footer>
-        <p>You’ve Reached the end!</p>
-        <p>© 2026 Helixo Portfollio website</p>
-    </footer>
+    <footer>© 2026 Helixo Portfolio • Locked In 💜</footer>
 
     <script>
-        const modal = document.getElementById('modal');
-        const modalBody = document.getElementById('modal-body');
-
         const content = {
-            entry1: `<h2>Welcome to ny private notes/thoughts! </h2><p>I appreciate that you took your time to get in the Inner Circle tab, this is where i might idk vent talk about something yknoww anything that i trust my cloaest friends with.
-            
-             I trust that you will not share the code to anyone else that i didn't approve to join. also, make ture to turn on notifs for new Entries updates</p>`,
-            hearts: `<h2>❤️ Heart Codes</h2><ul style="list-style:none; line-height:2;"><p>​❤️ — Normal like / Okay, nice!
-​🧡 — I LOVE IT/YOU SM 
-
-​💛 — Thank you! (Approved by me)
-
-​💚 — I love whatever is wrong with you 
-
-​💙 — Day One / Loyalty
-
-​💜 — Locked in / Creative mode
-
-​🤎 — Solid / Grounded
-
-​🖤 — something's wrong
-
-​🤍 —  Peace/wholesomeness
-
-​🩷 — Hyper / Huge W
-
-​🩵 — on cloud nine ( really happy) 
-
-​🩶 — No thoughts, just vibes
-
-​❤️‍🔥 — Obsessed / FIREEE
-☑️ - Jealousy</p></ul>`,
-            whatever: `<h2>TestInfo</h2><p>Kijana there is no more info go touch grass now.</p>`
+entry1: `
+                <h2 style="color: var(--yellow-btn); margin-bottom: 15px;">Welcome to my private notes/thoughts!</h2>
+                <p style="line-height: 1.6; margin-bottom: 15px;">I appreciate that you took your time to get in the Inner Circle tab. This is where I might vent, talk about something, or share anything I trust my closest friends with.</p>
+                <p style="line-height: 1.6; margin-bottom: 15px;"><strong>The Trust Agreement:</strong> I trust that you will not share the entry code with anyone else I haven't approved. Keep the circle tight.</p>
+                <p style="color: var(--text-secondary);"><em>Make sure to turn on notifications for new entries/updates!</em></p>
+            `,
+            hearts: `
+                <h2 style="color: var(--yellow-btn); margin-bottom: 20px;">❤️ Official Helixo Heart Codes</h2>
+                <ul style="list-style: none; line-height: 2.2; font-size: 1.1rem;">
+                    <li>❤️ — Normal like / Okay, nice!</li>
+                    <li>🧡 — I LOVE IT / YOU SM</li>
+                    <li>💛 — Thank you! (Approved by me)</li>
+                    <li>💚 — I love whatever is wrong with you 😭</li>
+                    <li>💙 — Day One / Loyalty</li>
+                    <li>💜 — Locked in / Creative mode</li>
+                    <li>🤎 — Solid / Grounded</li>
+                    <li>🖤 — Something's wrong</li>
+                    <li>🤍 — Peace / Wholesomeness</li>
+                    <li>🩷 — Hyper / Huge W!</li>
+                    <li>🩵 — On cloud nine (Really happy)</li>
+                    <li>🩶 — No thoughts, just vibes</li>
+                    <li>❤️‍🔥 — Obsessed / FIREEE</li>
+                    <li>☑️ — Jealousy</li>
+                </ul>
+            `,
+            rules: `
+                <h2 style="color: var(--yellow-btn); margin-bottom: 20px;">📜 The Sacred Bro Code</h2>
+                <div style="line-height: 1.8;">
+                    <p style="margin-bottom: 10px;"><strong>Code #1:</strong> Loyalty Over Everything. Protect each other at all times.</p>
+                    <p style="margin-bottom: 10px;"><strong>Code #2:</strong> Bros Before Anything. Friendship > Romantic pursuit.</p>
+                    <p style="margin-bottom: 10px;"><strong>Code #3:</strong> No Disrespect. No public humiliation or betrayal.</p>
+                    <p style="margin-bottom: 10px; color: #ff4d4d;"><strong>Code #4: THE EX-FACTOR:</strong> Strictly no dating, flirting, or matching with a Bro's ex. (ZERO TOLERANCE).</p>
+                    <p style="margin-bottom: 10px;"><strong>Code #5:</strong> Straight Talk Only. No sneaky notes. Two strikes and you're out.</p>
+                    <hr style="border: 0; border-top: 1px solid var(--glass-bg); margin: 15px 0;">
+                    <p style="font-size: 0.9rem; color: #ff4d4d;"><em>Note: Any violation results in an immediate block/mute without consideration.</em></p>
+                </div>
+            `,
+            whatever: `<h2>TestInfo</h2><p>Kijana, there is no more info. Go touch grass now.</p>`
         };
 
-        function openModal(k) { modalBody.innerHTML = content[k]; modal.style.display = 'flex'; }
-        function closeModal() { modal.style.display = 'none'; }
-        const observer = new IntersectionObserver((es) => {
-            es.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        function requestNotifs() {
+            Notification.requestPermission().then(perm => {
+                if(perm === 'granted') alert('Notifications Enabled ❤️‍🔥');
+                document.getElementById('notif-banner').style.display = 'none';
+            });
+        }
+
+        function openModal(k) { document.getElementById('modal-body').innerHTML = content[k]; document.getElementById('modal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+        const obs = new IntersectionObserver((es) => { es.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
     </script>
 </body>
 </html>
